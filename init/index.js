@@ -4,7 +4,7 @@ const initData = require("./data.js");
 const Listing = require("../models/listing.js");
 
 const MONGO_URL = process.env.ATLASDB_URL;
-
+console.log(MONGO_URL);
 main()
   .then(() => {
     console.log("connected to DB");
@@ -19,7 +19,7 @@ async function main() {
 
 const initDB = async () => {
     await Listing.deleteMany({});
-    initData.data = initData.data.map((obj) => ({ ...obj, owner: "6a4572dcf85920d3d2389d5a" }))
+    initData.data = initData.data.map((obj) => ({ ...obj, owner: "6a514eabf879156c1da5e4ae" }))
     await Listing.insertMany(initData.data);
     console.log("data was initialized");
 };

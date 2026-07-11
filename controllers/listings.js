@@ -31,7 +31,6 @@ module.exports.renderNewForm = (req,res) => {
 
 module.exports.showListing = async (req, res) => {
     const { id } = req.params;
-
     let listing = await Listing.findById(id)
         .populate({
             path: "reviews",
@@ -40,12 +39,10 @@ module.exports.showListing = async (req, res) => {
             },
         })
         .populate("owner");
-
     if (!listing) {
         req.flash("error", "Listing you requested does not exist!");
         return res.redirect("/listings");
     }
-
     // Generate coordinates only if missing
     if (!listing.geometry?.coordinates?.length) {
         const response = await fetch(
@@ -59,7 +56,6 @@ module.exports.showListing = async (req, res) => {
                 },
             }
         );
-
         if (response.ok) {
             const data = await response.json();
 
@@ -71,14 +67,11 @@ module.exports.showListing = async (req, res) => {
                         parseFloat(data[0].lat),
                     ],
                 };
-
                 await listing.save();
             }
         }
     }
-
     console.log(listing.geometry);
-
     res.render("listings/show.ejs", { listing });
 };
 
